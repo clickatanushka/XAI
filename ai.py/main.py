@@ -10,12 +10,25 @@ import shap
 import os
 
 # --- Dataset paths ---
-train_dir = "/home/anushka/aiml/ai.py/chest_xray/train"
-val_dir   = "/home/anushka/aiml/ai.py/chest_xray/val"
-test_dir  = "/home/anushka/aiml/ai.py/chest_xray/test"
+# train_dir = "/home/anushka/XAI/ai.py/chest_xray/train"
+# val_dir   = "/home/anushka/aiml/ai.py/chest_xray/val"
+# test_dir  = "/home/anushka/aiml/ai.py/chest_xray/test"
+
+# NEW (replace with these)
+train_dir = "/home/anushka/XAI/ai.py/chest_xray/chest_xray/train"
+val_dir   = "/home/anushka/XAI/ai.py/chest_xray/chest_xray/val"
+test_dir  = "/home/anushka/XAI/ai.py/chest_xray/chest_xray/test"
+
 
 # --- Load Data ---
-datagen = ImageDataGenerator(rescale=1./255)
+datagen = ImageDataGenerator(
+    rescale=1./255,
+    rotation_range=15,
+    width_shift_range=0.1,
+    height_shift_range=0.1,
+    zoom_range=0.1,
+    horizontal_flip=True
+)
 train_gen = datagen.flow_from_directory(train_dir, target_size=(224,224), class_mode='binary', shuffle=True)
 val_gen   = datagen.flow_from_directory(val_dir,   target_size=(224,224), class_mode='binary', shuffle=False)
 
@@ -49,7 +62,7 @@ def grad_cam(img_array, model, layer_name="conv5_block3_out"):
     return heatmap
 
 # --- Test image ---
-img_path = "/home/anushka/aiml/pnuemonia.jpeg"
+img_path = "/home/anushka/XAI/pnuemonia.jpeg"
 img = tf.keras.preprocessing.image.load_img(img_path, target_size=(224,224))
 arr = tf.keras.preprocessing.image.img_to_array(img)/255.0
 arr = np.expand_dims(arr, axis=0)
@@ -87,3 +100,8 @@ shap_values = explainer.shap_values(arr)
 
 # 4. Visualize SHAP heatmap
 shap.image_plot(shap_values, arr)
+
+
+os.makedirs("model", exist_ok=True)
+model.save("model/xray_model.h5")
+print("Model saved to model/xray_model.h5")
