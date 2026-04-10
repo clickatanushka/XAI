@@ -39,13 +39,22 @@ output = Dense(1, activation="sigmoid")(x)
 model = Model(inputs=base.input, outputs=output)
 
 # Freeze pretrained layers
-for layer in base.layers:
+for layer in base.layers[:-30]:
     layer.trainable = False
+for layer in base.layers[-30:]:
+    layer.trainable = True
 
-model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
+# model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 
-# --- Train ---
-history = model.fit(train_gen, validation_data=val_gen, epochs=2)
+# # --- Train ---
+# history = model.fit(train_gen, validation_data=val_gen, epochs=2)
+
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+    loss="binary_crossentropy",
+    metrics=["accuracy"]
+)
+history = model.fit(train_gen, validation_data=val_gen, epochs=10)
 
 # --- Grad-CAM ---
 def grad_cam(img_array, model, layer_name="conv5_block3_out"):
