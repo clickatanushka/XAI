@@ -89,9 +89,15 @@ This system provides:
 
 ## 🧪 Results
 
+<img width="1920" height="1080" alt="Screenshot From 2026-04-11 04-00-57" src="https://github.com/user-attachments/assets/f89d8e2b-28fa-4821-a793-010192c3e9f0" />
+
 - High classification accuracy on test data
 - Consistent localization of pneumonia-affected regions
 - Clear, human-understandable explanations
+
+<img width="1920" height="1080" alt="Screenshot From 2026-04-11 03-59-06" src="https://github.com/user-attachments/assets/57b5bff5-6351-4a11-b40f-6c24e13c740b" />
+<img width="1920" height="1080" alt="Screenshot From 2026-04-11 03-59-27" src="https://github.com/user-attachments/assets/3d7b38c0-062c-4589-8e6c-3958d5f85f40" />
+
 
 ---
 
